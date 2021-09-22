@@ -6,5 +6,5 @@ export default {
     lightBlue: '#caf3fe',
     white: 'white',
   },
-  transistion: '0.3s',
+  transition: '0.3s',
 }
