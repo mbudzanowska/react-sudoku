@@ -7,7 +7,7 @@ describe('shuffle', () => {
     expect(array).toHaveLength(3)
   })
 
-  it('returns an array with the same elements after being shuffled', () => {
+  it('returns and array with the same elements after being shuffled', () => {
     const array = [1, 2, 3]
     shuffle(array)
     expect(array).toContain(1)
