@@ -1,15 +1,22 @@
 import { FC, Children, useCallback, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useMousetrap from 'react-hook-mousetrap'
 import { Dispatch, AnyAction } from 'redux'
 
-import { createGrid } from 'reducers'
+import { createGrid, IReducer, selectBlock } from 'reducers'
 
 import Block from './block'
 import { Container, Row } from './styles'
-import { INDEX } from 'typings'
+import { BLOCK_COORDS, INDEX } from 'typings'
+
+interface IState {
+  selectedBlock?: BLOCK_COORDS
+}
 
 const Grid: FC = () => {
+  const state = useSelector<IReducer, IState>(({ selectedBlock }) => ({
+    selectedBlock,
+  }))
   const dispatch = useDispatch<Dispatch<AnyAction>>()
   const create = useCallback(() => dispatch(createGrid()), [dispatch])
   useEffect(() => {
@@ -17,21 +24,48 @@ const Grid: FC = () => {
   }, [create])
 
   function moveDown() {
-    console.log('down')
-  }
-
-  function moveUp() {
-    console.log('up')
+    if (state.selectedBlock && state.selectedBlock[0] < 8) {
+      dispatch(
+        selectBlock([
+          (state.selectedBlock[0] + 1) as INDEX,
+          state.selectedBlock[1],
+        ])
+      )
+    }
   }
 
   function moveLeft() {
-    console.log('left')
+    if (state.selectedBlock && state.selectedBlock[1] > 0) {
+      dispatch(
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] - 1) as INDEX,
+        ])
+      )
+    }
   }
 
   function moveRight() {
-    console.log('right')
+    if (state.selectedBlock && state.selectedBlock[1] < 8) {
+      dispatch(
+        selectBlock([
+          state.selectedBlock[0],
+          (state.selectedBlock[1] + 1) as INDEX,
+        ])
+      )
+    }
   }
 
+  function moveUp() {
+    if (state.selectedBlock && state.selectedBlock[0] > 0) {
+      dispatch(
+        selectBlock([
+          (state.selectedBlock[0] - 1) as INDEX,
+          state.selectedBlock[1],
+        ])
+      )
+    }
+  }
   useMousetrap('down', moveDown)
   useMousetrap('up', moveUp)
   useMousetrap('right', moveRight)
