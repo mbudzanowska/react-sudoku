@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components'
 import { Card, Content, Grid, Title } from 'components'
 import { configureStore, unregister } from 'core'
 import { GlobalStyles, theme } from 'styles'
+import Numbers from 'components/numbers'
 
 const store = configureStore()
 
@@ -17,7 +18,8 @@ ReactDOM.render(
         <Content data-cy="content">
           <Title data-cy="title">Sudoku</Title>
           <Card data-cy="card">
-            <Grid></Grid>
+            <Grid />
+            <Numbers />
           </Card>
         </Content>
       </Provider>
